@@ -10,10 +10,15 @@ def removepunc(request):
     print(removepunc)
     punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
     analyzed = ""
-    for char in text:
-        if char not in punctuations:
-            analyzed = analyzed + char
-    return HttpResponse("remove punc")
+    if removepunc == 'on':
+        for char in text:
+            if char not in punctuations:
+                analyzed = analyzed + char
+        
+        params = {"purpose" : "Removed Punctuations" , "analyzed_text" : analyzed}
+        return render(request , 'analyzed.html' , params)
+    else:
+        return HttpResponse("Error")
 
 def capfirst(request):
     return HttpResponse("capitize first")
