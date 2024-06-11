@@ -5,12 +5,23 @@ def home(request):
     return render(request , 'index.html')
 
 def analyze(request):
-    text = request.GET.get('text' , '')
-    removepunc = request.GET.get('removepunc' , 'off')
-    fullcaps = request.GET.get('fullcaps' , 'off')
-    newlineremover = request.GET.get('newlineremover' , 'off')
-    extraspaceremover = request.GET.get('extraspaceremover' , 'off')
-    charcounter = request.GET.get('charcounter' , 'off')
+    # text = request.GET.get('text' , '')
+    # in GET Request we send data through our URL and our all credentials in seen the url whatever we send 
+    #also GET request has a limit sending data through a url and some small server can give error
+    # in Youtube when we click video tab , setting tab that is GET request and we can see in the URL Body what we sended
+    # removepunc = request.GET.get('removepunc' , 'off')
+    # fullcaps = request.GET.get('fullcaps' , 'off')
+    # newlineremover = request.GET.get('newlineremover' , 'off')
+    # extraspaceremover = request.GET.get('extraspaceremover' , 'off')
+    # charcounter = request.GET.get('charcounter' , 'off')
+    
+    #add {% csrf_token %}  for security purpose and for post requests
+    text = request.POST.get('text' , '')
+    removepunc = request.POST.get('removepunc' , 'off')
+    fullcaps = request.POST.get('fullcaps' , 'off')
+    newlineremover = request.POST.get('newlineremover' , 'off')
+    extraspaceremover = request.POST.get('extraspaceremover' , 'off')
+    charcounter = request.POST.get('charcounter' , 'off')
     
     
     if removepunc == 'on':
