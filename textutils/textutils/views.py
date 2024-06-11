@@ -11,9 +11,11 @@ def analyze(request):
     newlineremover = request.GET.get('newlineremover' , 'off')
     extraspaceremover = request.GET.get('extraspaceremover' , 'off')
     charcounter = request.GET.get('charcounter' , 'off')
-    punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
-    analyzed = ""
+    
+    
     if removepunc == 'on':
+        punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+        analyzed = ""
         for char in text:
             if char not in punctuations:
                 analyzed = analyzed + char
@@ -22,19 +24,34 @@ def analyze(request):
         return render(request , 'analyzed.html' , params)
     
     elif(fullcaps == 'on'):
+        analyzed = ""
         for char in text:
             analyzed = analyzed + char.upper()
         params = {"purpose" : "Changed to Uppercase" , "analyzed_text" : analyzed}
         return render(request , 'analyzed.html' , params)
     
-    elif(newlineremover == 'on'):
+    # elif(newlineremover == 'on'):
+    #     analyzed = ""
+    #     for char in text:
+    #         if not (char == '\n'):
+    #             analyzed = analyzed + char
+    #     params = {"purpose" : "New Line Removed" , "analyzed_text" : analyzed}
+    #     return render(request , 'analyzed.html' , params)
+    elif (newlineremover == "on"):
+        analyzed = ""
         for char in text:
-            if not (char == '\n'):
+            if char != "\n" and char!="\r":
                 analyzed = analyzed + char
-        params = {"purpose" : "New Line Removed" , "analyzed_text" : analyzed}
-        return render(request , 'analyzed.html' , params)
+            else:
+                print("no")
+        print("pre", analyzed)
+        params = {'purpose': 'Removed NewLines', 'analyzed_text': analyzed}
+        print(params)
+        # Analyze the text
+        return render(request, 'analyzed.html', params)
     
     elif(extraspaceremover == 'on'):
+        analyzed = ""
         for index , char in enumerate(text):
             if not (text[index] == " " and text[index + 1] == " "):
                 analyzed = analyzed + char
@@ -42,6 +59,7 @@ def analyze(request):
         return render(request , 'analyzed.html' , params)
     
     elif(charcounter == 'on'):
+        analyzed = ""
         count = 0
         for char in text:
             if not (char == " "):
